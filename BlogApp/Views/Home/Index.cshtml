@@ -2,71 +2,25 @@
     ViewData["Title"] = "Hlavná stránka";
 }
 
+@model IEnumerable<BlogApp.Models.Blog>
+
 <!-- Content -->
 <div class="container px-4 py-4">
     <h2 class="pb-2 border-bottom">All Blogs</h2>
     <div class="row g-4 py-5 row-cols-1 row-cols-lg-2">
 
-        <a asp-action="Blog" asp-controller="Home" class="index-blog-container-outer">
-            <div class="col d-flex align-items-start pb-4 index-blog-container-inner">
-                <div class="blog-content">
-                    <h3 class="fs-2 index-blog-name">Začínam robiť webstránku na VAII</h3>
-                    <p>Dnes som začal robiť web o blogovaní, kde sa používatelia môžu zaregistrovať a pridávať svoje blogy, ktoré budú vidieť ostatní.</p>
-                    <p class="user">Jozef Rechtorík</p>
+        @foreach (var blog in Model.Reverse())
+        {
+            <a asp-action="Blog" asp-controller="Home" class="index-blog-container-outer">
+                <div class="col d-flex align-items-start pb-4 index-blog-container-inner">
+                    <div class="blog-content">
+                        <h3 class="fs-2 index-blog-name"> @blog.Title </h3>
+                        <p>@blog.Body</p>
+                        <p class="user">Jozef Rechtorík</p>
+                    </div>
                 </div>
-            </div>
-        </a>
-
-        <a href="#" class="index-blog-container-outer">
-            <div class="col d-flex align-items-start pb-4 index-blog-container-inner">
-                <div class="blog-content">
-                    <h3 class="fs-2 index-blog-name">Technológie ktoré budem chcieť použiť</h3>
-                    <p>Mám v pláne použiť ASP.NET na back-end.</p>
-                    <p class="user">Jozef Rechtorík</p>
-                </div>
-            </div>
-        </a>
-
-
-        <a href="#" class="index-blog-container-outer">
-            <div class="col d-flex align-items-start pb-4 index-blog-container-inner">
-                <div class="blog-content">
-                    <h3 class="fs-2 index-blog-name">Čo som mal dnes na obed</h3>
-                    <p>
-                        Dnes som si na obed dal html hlavné jedlo s príchuťou bootstrapu. Omáčka bola dosť pikantná. <br>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero accusamus, molestiae aspernatur ipsam consequuntur quis, placeat eius possimus asperiores aliquid doloribus corrupti error molestias tempore rem alias, voluptatem quasi consequatur!
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis nobis similique suscipit obcaecati provident? Suscipit animi voluptas sunt magnam soluta, fuga voluptatem! Fuga cumque culpa earum mollitia laboriosam debitis maiores.
-                    </p>
-                    <p class="user">Janko Mrkvička</p>
-                </div>
-            </div>
-        </a>
-
-        <a href="#" class="index-blog-container-outer">
-            <div class="col d-flex align-items-start pb-4 index-blog-container-inner">
-                <div class="blog-content">
-                    <h3 class="fs-2 index-blog-name">Úplne nezaujímavý blog 1</h3>
-                    <p>
-                        Toto je len pre testovacie účely. <br>
-                    </p>
-                    <p class="user">Jozef Mak</p>
-                </div>
-            </div>
-        </a>
-
-        <a href="#" class="index-blog-container-outer">
-            <div class="col d-flex align-items-start pb-4 index-blog-container-inner">
-                <div class="blog-content">
-                    <h3 class="fs-2 index-blog-name">Úplne nezaujímavý blog 2</h3>
-                    <p>
-                        Toto je tiež len na testovacie účely. <br>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero accusamus, molestiae aspernatur ipsam consequuntur quis, placeat eius possimus asperiores aliquid doloribus corrupti error molestias tempore rem alias, voluptatem quasi consequatur!
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis nobis similique suscipit obcaecati provident? Suscipit animi voluptas sunt magnam soluta, fuga voluptatem! Fuga cumque culpa earum mollitia laboriosam debitis maiores.
-                    </p>
-                    <p class="user">Jozef Murgaš</p>
-                </div>
-            </div>
-        </a>
+            </a>
+        }
 
     </div>
 </div>
