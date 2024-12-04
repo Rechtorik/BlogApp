@@ -1,0 +1,25 @@
+# Build artefakty
+bin/
+obj/
+
+# Visual Studio nastavenia
+.vs/
+
+# Užívateľské nastavenia
+*.user
+*.suo
+
+# Logy
+*.log
+
+# Publikačné výstupy
+.publish/
+
+
+# Konfiguračné súbory citlivé na prostredie
+appsettings.Development.json
+
+# Temporary files
+*.tmp
+*.cache
+*.pdb
