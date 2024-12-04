@@ -6,13 +6,15 @@
 
 // nejde to z nejakeho dovodu
 document.querySelector('form').addEventListener('submit', function (event) {
+    console.log("zacala");
     let isValid = true; 
     let inputs = document.querySelectorAll('input');
 
     inputs.forEach(function (input) {
         if (input.value.trim() === '') {
             isValid = false;
-            alert('Prosím vyplňte všetky polia');
+            console.log("tu je chyba");
+            alert('Všetky polia musia byť vyplnené!');
         }
     });
 
