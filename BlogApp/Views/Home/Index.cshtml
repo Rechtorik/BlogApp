@@ -11,7 +11,7 @@
 
         @foreach (var blog in Model.Reverse())
         {
-            <a asp-action="Blog" asp-controller="Home" class="index-blog-container-outer">
+            <a asp-action="Blog" asp-controller="Blog" asp-route-id="@blog.Id" class="index-blog-container-outer">
                 <div class="col d-flex align-items-start pb-4 index-blog-container-inner">
                     <div class="blog-content">
                         <h3 class="fs-2 index-blog-name"> @blog.Title </h3>

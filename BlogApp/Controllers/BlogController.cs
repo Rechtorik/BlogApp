@@ -1,5 +1,6 @@
 ﻿using BlogApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.Controllers
 {
@@ -10,6 +11,11 @@ namespace BlogApp.Controllers
         public BlogController(BlogContext context)
         {
             _context = context;
+        }
+        public IActionResult Blog(int id)
+        {
+            var blog = _context.Blogs.FirstOrDefault(b => b.Id == id);
+            return View(blog);
         }
         public IActionResult Add()
         {
@@ -28,6 +34,37 @@ namespace BlogApp.Controllers
             };
 
             await _context.Blogs.AddAsync(blog);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var blog = _context.Blogs.FirstOrDefault(b => b.Id == id);
+            return View(blog);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Blog blog)
+        {
+            if (ModelState.IsValid)
+            {
+                var existingBlog = _context.Blogs.FirstOrDefault(b => b.Id == blog.Id);
+                existingBlog.Title = blog.Title;
+                existingBlog.Body = blog.Body;
+                _context.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
+            return View(blog);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _context.Blogs
+                .Where(b => b.Id == id)
+                .ExecuteDeleteAsync();
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index", "Home");
