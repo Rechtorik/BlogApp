@@ -1,3 +1,6 @@
+using BlogApp.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace BlogApp
 {
     public class Program
@@ -8,6 +11,10 @@ namespace BlogApp
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<BlogContext>(options => {
+                options.UseSqlServer("Server=DESKTOP-JCPM537\\SQLEXPRESS;Database=BlogDB;Trusted_Connection=True;TrustServerCertificate=True;");
+            });
 
             var app = builder.Build();
 

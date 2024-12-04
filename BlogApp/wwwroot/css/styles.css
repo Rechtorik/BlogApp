@@ -1,0 +1,88 @@
+﻿@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+
+:root {
+    --index-blog-title-color: #3498db;
+}
+
+body {
+    font-size: 1em;
+}
+
+.container-header {
+    position: sticky;
+    top: 0;
+    background-color: #EEEEEEFF;
+    width: 100%;
+    padding: 0.5em 5em;
+    z-index: 1;
+}
+
+.index-blog-container-outer {
+    padding: 1rem;
+    text-decoration: none;
+    color: black;
+}
+
+.index-blog-container-inner:hover {
+    background-color: #00000010;
+    box-shadow: none;
+}
+
+.index-blog-container-inner {
+    height: 100%;
+    padding: 1rem;
+    box-shadow: 3px 3px 10px #00000050;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.index-blog-name {
+    color: var(--index-blog-title-color);
+}
+
+.blog-content p {
+    display: -webkit-box; /* Vytvorenie flexbox kontajnera */
+    -webkit-box-orient: vertical; /* Nastavenie orientácie na vertikálnu */
+    -webkit-line-clamp: 3; /* Obmedzenie na 3 riadky  -KÓD OD CHATGPT*/
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+p.user::before {
+    content: "Published by: ";
+    color: #00000077;
+}
+
+
+.blog-whoposted-img {
+    padding: 3em;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+}
+
+.blog-body {
+    text-align: justify;
+}
+
+.add-blog-li-inactive {
+    color: gray;
+    pointer-events: none;
+}
+
+.blog-main-container {
+    background-color: #00000003;
+}
+
+
+@media (max-width: 768px) { /* Pre mobilné zariadenia */
+    .blog-whoposted-img {
+        display: none;
+    }
+
+    .container-header {
+        padding: 0em 2em 1em 2em;
+    }
+
+    .add-blog-form h2 {
+        text-align: center;
+    }
+}
