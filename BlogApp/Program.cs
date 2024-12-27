@@ -12,8 +12,18 @@ namespace BlogApp
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            // db
             builder.Services.AddDbContext<BlogContext>(options => {
-                options.UseSqlServer("Server=DESKTOP-JCPM537\\SQLEXPRESS;Database=BlogDB;Trusted_Connection=True;TrustServerCertificate=True;");
+                options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
+            });
+
+            // session
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30); // Maximálny èas neèinnosti
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
             });
 
             var app = builder.Build();
@@ -28,6 +38,8 @@ namespace BlogApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseSession();
 
             app.UseRouting();
 
