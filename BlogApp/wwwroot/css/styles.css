@@ -8,6 +8,11 @@ body {
     font-size: 1em;
 }
 
+.login-gray-background {
+    background-color: #d3d3d3; /* svetlá šedá */
+    /*min-height: 100vh;*/ /* aby pokrylo celú výšku stránky */
+}
+
 .container-header {
     position: sticky;
     top: 0;

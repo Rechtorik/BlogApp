@@ -18,6 +18,12 @@ namespace BlogApp.Controllers
 
         public IActionResult Index()
         {
+            // kontrola èi je používate¾ prihlásený
+            var userId = HttpContext.Session.GetInt32("userId");
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
             // Naèítanie všetkých blogov z databázy
             var blogs = _context.Blogs.ToList();
             return View(blogs);

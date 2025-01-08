@@ -25,12 +25,17 @@ namespace BlogApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddBlogViewModel viewModel)
         {
+            var userId = HttpContext.Session.GetInt32("userId");
+            if (!userId.HasValue)
+            {
+                userId = 0;
+            }
             var blog = new Blog
             {
                 Title = viewModel.Title,
                 Body = viewModel.Body,
                 DatePosted = DateTime.Now,
-                UserId = 0 // Len zatiaľ
+                UserId = userId.Value
             };
 
             await _context.Blogs.AddAsync(blog);
