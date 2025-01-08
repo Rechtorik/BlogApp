@@ -3,21 +3,21 @@
     var userId = Context.Session.GetInt32("userId");
 }
 
-@model IEnumerable<BlogApp.Models.Blog>
+@model BlogApp.Models.HomeIndexViewModel
 
 <!-- Content -->
 <div class="container px-4 py-4">
     <h2 class="pb-2 border-bottom">All Blogs, current user id: @(userId ?? 0)</h2>
     <div class="row g-4 py-5 row-cols-1 row-cols-lg-2">
 
-        @foreach (var blog in Model.Reverse())
+        @foreach (var blog in Model.Blogs.Reverse())
         {
             <a asp-action="Blog" asp-controller="Blog" asp-route-id="@blog.Id" class="index-blog-container-outer">
                 <div class="col d-flex align-items-start pb-4 index-blog-container-inner">
                     <div class="blog-content">
                         <h3 class="fs-2 index-blog-name"> @blog.Title </h3>
                         <p>@blog.Body</p>
-                        <p class="user">Jozef Rechtorík</p>
+                        <p class="user">@Model.Users.Where(u => u.Id == blog.UserId).FirstOrDefault()?.Nick @* Jozef Rechtorík *@</p>
                     </div>
                 </div>
             </a>

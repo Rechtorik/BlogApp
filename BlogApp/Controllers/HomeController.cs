@@ -25,13 +25,21 @@ namespace BlogApp.Controllers
                 return RedirectToAction("Index", "Authentication");
             }
 
+            // Naèítanie všetkých blogov z databázy
             var blogs = _context.Blogs.ToList();
+            // Naèítanie všetkých userov z databázy
+            var users = _context.Users.ToList();
+
             if (ownerOnly.HasValue && ownerOnly == true) 
             {
                 blogs = blogs.Where(b => b.UserId == userId).ToList();
             }
-            // Naèítanie všetkých blogov z databázy
-            return View(blogs);
+            var model = new HomeIndexViewModel
+            {
+                Blogs = blogs,
+                Users = users
+            };
+            return View(model);
         }
 
         public IActionResult Privacy()
