@@ -14,17 +14,13 @@ namespace BlogApp.Controllers
         [HttpPost]
         public IActionResult Login(string login, string password)
         {
-            // Check if the user exists in the database
             var user = _context.Users.FirstOrDefault(u => u.Login == login && u.Password == password);
-            // If the user exists, redirect to the home page
             if (user == null)
             {
                 return RedirectToAction("Index", "Authentication");
             }
-            // If the user does not exist, return an error message
-            // nastaviť session loginId
             HttpContext.Session.SetInt32("userId", user.Id);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { ownerOnly = false });
         }
         public IActionResult Logout()
         {
@@ -34,6 +30,44 @@ namespace BlogApp.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+        public IActionResult Register()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Register(string name, string surname, string nick, string login, string password)
+        {
+            var user = new User
+            {
+                Name = name,
+                Surname = surname,
+                Nick = nick,
+                Login = login,
+                Password = password
+            };
+
+            if (name == null || surname == null || nick == null || login == null || password == null) 
+            {
+                TempData["notFilled"] = "true"; // stačí aby tam niečo bolo, nezáleží na hodnote
+                return View(user);
+            }
+
+            var sameUser = _context.Users.FirstOrDefault(u => u.Login == login);
+
+            if (sameUser != null)
+            {
+                TempData["takenLogin"] = "true"; // stačí aby tam niečo bolo, nezáleží na hodnote
+                //return RedirectToAction("Register", "Authentication");
+                return View(user);
+            }
+
+            _context.Users.Add(user);
+            _context.SaveChanges();
+
+            HttpContext.Session.SetInt32("userId", user.Id);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

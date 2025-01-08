@@ -16,7 +16,7 @@ namespace BlogApp.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(bool? ownerOnly)
         {
             // kontrola èi je používate¾ prihlásený
             var userId = HttpContext.Session.GetInt32("userId");
@@ -24,8 +24,13 @@ namespace BlogApp.Controllers
             {
                 return RedirectToAction("Index", "Authentication");
             }
-            // Naèítanie všetkých blogov z databázy
+
             var blogs = _context.Blogs.ToList();
+            if (ownerOnly.HasValue && ownerOnly == true) 
+            {
+                blogs = blogs.Where(b => b.UserId == userId).ToList();
+            }
+            // Naèítanie všetkých blogov z databázy
             return View(blogs);
         }
 

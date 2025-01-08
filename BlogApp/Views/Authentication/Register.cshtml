@@ -1,0 +1,80 @@
+﻿@model BlogApp.Models.User?
+@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    ViewData["Title"] = "Register";
+    if (TempData["takenLogin"] != null)
+    {
+        <script>
+            alert("Takýto login je už zabratý!");
+        </script>
+        TempData.Remove("takenLogin");
+    }
+    if (TempData["notFilled"] != null)
+    {
+        <script>
+            alert("Všetky polia musia byť vyplnené!");
+        </script>
+        TempData.Remove("notFilled");
+    }
+}
+
+<div class="row d-flex justify-content-center align-items-center w-100 px-5 border">
+    <div class="col-md-8 col-lg-6 col-xl-5 offset-xl-1  py-lg-5">
+        <h1 class="mb-5">Registration</h1>
+        <form method="post" asp-controller="Authentication" asp-action="Register">
+            <!-- Name input -->
+            <div data-mdb-input-init="" class="form-outline mb-4" data-mdb-input-initialized="true">
+                <input type="text" class="form-control form-control-lg" name="name" placeholder="Name" value="@Model?.Name">
+                <div class="form-notch">
+                    <div class="form-notch-leading" style="width: 9px;"></div>
+                    <div class="form-notch-middle" style="width: 88.8px;"></div><div class="form-notch-trailing"></div>
+                </div>
+            </div>
+
+            <!-- Surname input -->
+            <div data-mdb-input-init="" class="form-outline mb-4" data-mdb-input-initialized="true">
+                <input type="text" class="form-control form-control-lg" name="surname" placeholder="Surname" value="@Model?.Surname">
+                <div class="form-notch">
+                    <div class="form-notch-leading" style="width: 9px;"></div>
+                    <div class="form-notch-middle" style="width: 88.8px;"></div><div class="form-notch-trailing"></div>
+                </div>
+            </div>
+
+            <!-- Nick input -->
+            <div data-mdb-input-init="" class="form-outline mb-4" data-mdb-input-initialized="true">
+                <input type="text" class="form-control form-control-lg" name="nick" placeholder="Nick" value="@Model?.Nick">
+                <div class="form-notch">
+                    <div class="form-notch-leading" style="width: 9px;"></div>
+                    <div class="form-notch-middle" style="width: 88.8px;"></div><div class="form-notch-trailing"></div>
+                </div>
+            </div>
+
+            <!-- Login input -->
+            <div data-mdb-input-init="" class="form-outline mb-4" data-mdb-input-initialized="true">
+                <input type="text" class="form-control form-control-lg" name="login" placeholder="Login">
+                <div class="form-notch">
+                    <div class="form-notch-leading" style="width: 9px;"></div>
+                    <div class="form-notch-middle" style="width: 88.8px;"></div><div class="form-notch-trailing"></div>
+                </div>
+            </div>
+
+            <!-- Password input -->
+            <div data-mdb-input-init="" class="form-outline mb-3" data-mdb-input-initialized="true">
+                <input type="password" class="form-control form-control-lg" name="password" placeholder="Password" value="@Model?.Password">
+                <div class="form-notch">
+                    <div class="form-notch-leading" style="width: 9px;"></div>
+                    <div class="form-notch-middle" style="width: 64px;"></div><div class="form-notch-trailing"></div>
+                </div>
+            </div>
+
+            <div class="text-center text-lg-start mt-4 pt-2">
+                <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;" data-mdb-button-initialized="true">Register</button>
+                <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a asp-controller="Authentication" asp-action="Index">Login</a></p>
+            </div>
+
+        </form>
+    </div>
+    <div class="col-md-9 col-lg-6 col-xl-6 my-lg-5">
+        <img src="/images/undraw_duplicate_4ikn.svg" class="img-fluid" alt="Register image">
+    </div>
+</div>
