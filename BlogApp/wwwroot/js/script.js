@@ -3,11 +3,11 @@
 
 // Write your JavaScript code.
 
-
 // nejde to z nejakeho dovodu
 document.querySelector('form').addEventListener('submit', function (event) {
     console.log("zacala");
-    let isValid = true; 
+    let isValid = true;
+    let isValid = true;
     let inputs = document.querySelectorAll('input');
 
     inputs.forEach(function (input) {
@@ -20,6 +20,10 @@ document.querySelector('form').addEventListener('submit', function (event) {
 
     //ak nieje vyplnene vsetko
     if (!isValid) {
-        event.preventDefault(); 
+        event.preventDefault();
     }
 });
+
+function Back() {
+    history.back();
+}

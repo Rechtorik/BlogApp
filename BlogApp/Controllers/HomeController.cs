@@ -27,6 +27,12 @@ namespace BlogApp.Controllers
 
             // Naèítanie všetkých blogov z databázy
             var blogs = _context.Blogs.ToList();
+
+            foreach (var blog in blogs)
+            {
+                blog.Body = blog.Body.Replace("<br>", " ");
+            }
+
             // Naèítanie všetkých userov z databázy
             var users = _context.Users.ToList();
 

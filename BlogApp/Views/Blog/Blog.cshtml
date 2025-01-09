@@ -14,12 +14,20 @@
             </div>
 
             <p class="col-lg-12 fs-4 blog-body">
-                @Model.Body
+                @Html.Raw(Model.Body)
             </p>
             <p class="user">Jozef Rechtorík</p>
         </div>
     </div>
-    <a asp-action="Index" asp-controller="Home" class="btn btn-secondary rounded-pill px-3" role="button">Back</a>
+    <a onclick="Back()" class="btn btn-secondary rounded-pill px-3" role="button">Back</a>
     <a asp-action="Delete" asp-controller="Blog" asp-route-id="@Model.Id" class="btn btn-secondary rounded-pill px-3 float-end" role="button" onclick="return confirm('Naozaj chcete vymazať tento blog?');">Delete</a>
     <a asp-action="Edit" asp-controller="Blog" asp-route-id="@Model.Id" class="btn btn-secondary rounded-pill px-3 float-end" role="button">Edit</a>
 </div>
+
+@section Scripts {
+    <script>
+        function Back() {
+            window.history.back();
+        }
+    </script>
+}

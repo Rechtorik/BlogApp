@@ -8,7 +8,7 @@
 <!-- Content -->
 <div class="container px-4 py-4">
     <h2 class="pb-2 border-bottom">All Blogs, current user id: @(userId ?? 0)</h2>
-    <div class="row g-4 py-5 row-cols-1 row-cols-lg-2">
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-2" id="blogs">
 
         @foreach (var blog in Model.Blogs.Reverse())
         {
@@ -25,3 +25,42 @@
 
     </div>
 </div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#searchUser').on('input', function () { // input sa púšta vždy keď sa zmení input
+                let searchValue = $(this).val().trim(); // to čo je v inpute (bez bielych znakov)
+                if (searchValue === "") { // ak je input prázdny tak sa pošle špeciálny reťazec [none], mohlo by to byť aj lepšie, ale toto aspoň funguje
+                    searchValue = "[none]";
+                }
+                $.ajax({
+                    url: '/Blog/GetFilteredBlogs',
+                    method: 'GET',
+                    data: { keyword: searchValue }, // Pošleme prázdny reťazec
+                    success: function (data) {
+                        $('#blogs').empty(); // Vyčistíme existujúce výsledky
+
+                        data.forEach(function (blog) { // Zobrazíme nové výsledky (prilepím html kód na každý blog)
+                            $('#blogs').append(`
+                                                                    <a href="/Blog/Blog/${blog.id}" class="index-blog-container-outer">
+                                        <div class="col d-flex align-items-start pb-4 index-blog-container-inner">
+                                            <div class="blog-content">
+                                                        <h3 class="fs-2 index-blog-name"> ${blog.title} </h3>
+                                                <p> ${blog.body}</p>
+                                                <p class="user">${blog.user}</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                                `);
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("Chyba pri získavaní údajov:", error);
+                    }
+                });
+            });
+        });
+    </script>   
+}

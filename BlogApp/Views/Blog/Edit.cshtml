@@ -21,6 +21,14 @@
         </div>
         <input type="hidden" asp-for="Id" />
         <button type="submit" class="btn btn-primary">Save</button>
-        <a asp-action="Index" asp-controller="Home" class="btn btn-secondary">Cancel</a>
+        <a onclick="Back()" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
+
+@section Scripts {
+    <script>
+    function Back() {
+        window.history.back();
+    }
+    </script>
+}
