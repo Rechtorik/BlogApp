@@ -1,5 +1,6 @@
 ﻿using BlogApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.Controllers
 {
@@ -14,7 +15,10 @@ namespace BlogApp.Controllers
         [HttpPost]
         public IActionResult Login(string login, string password)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Login == login && u.Password == password);
+            var user = _context.Users
+                .FirstOrDefault(u => EF.Functions.Collate(u.Login, "Latin1_General_BIN") == login
+                         && EF.Functions.Collate(u.Password, "Latin1_General_BIN") == password);
+
             if (user == null)
             {
                 return RedirectToAction("Index", "Authentication");
