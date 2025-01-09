@@ -16,6 +16,7 @@ namespace BlogApp.Controllers
         {
             var blog = _context.Blogs.FirstOrDefault(b => b.Id == id);
             //blog.Body.Replace("\r\n", "<br>").Replace("\n", "<br>");
+            ViewBag.Nick = _context.Users.FirstOrDefault(u => u.Id == blog.UserId).Nick;
             return View(blog);
         }
         public IActionResult Add()
