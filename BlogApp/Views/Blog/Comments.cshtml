@@ -1,0 +1,29 @@
+﻿@model BlogApp.Models.BlogBlogViewModel
+
+<div class="comments-section border">
+
+    <div>
+        <h4>Add a Comment</h4>
+        <form asp-action="AddComment" asp-controller="Blog" method="post">
+            <!-- Skryté pole na identifikáciu blogu -->
+            <input type="hidden" name="blogId" value="@Model.Blog.Id"/>
+
+            <!-- Pole na zadanie obsahu komentára -->
+            <div class="mb-3">
+                <label class="form-label">Comment</label>
+                <textarea name="content" class="form-control" placeholder="Write your comment here" rows="2" required></textarea>
+            </div>
+
+            <!-- Tlačidlo na odoslanie -->
+            <button type="submit" class="btn btn-primary">Submit Comment</button>
+        </form>
+    </div>
+
+    <h4>Comments</h4>
+    @foreach (var comment in Model.Comments)
+    {
+        <div class="comment">
+            <p>@Model.Users.Where(u => u.Id == comment.UserId).FirstOrDefault().Nick : @comment.Body</p>
+        </div>
+    }
+</div>

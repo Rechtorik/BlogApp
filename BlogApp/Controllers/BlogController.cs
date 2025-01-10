@@ -1,6 +1,7 @@
 ﻿using BlogApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace BlogApp.Controllers
 {
@@ -15,12 +16,27 @@ namespace BlogApp.Controllers
         public IActionResult Blog(int id)
         {
             var blog = _context.Blogs.FirstOrDefault(b => b.Id == id);
-            //blog.Body.Replace("\r\n", "<br>").Replace("\n", "<br>");
-            var user = _context.Users.FirstOrDefault(u => u.Id == blog.UserId);
+            var owner = _context.Users.FirstOrDefault(u => u.Id == blog.UserId);
+            // nájsť userov, ktorí komentovali na tento blog
+            var usersIds = _context.Comments
+                .Where(c => c.BlogId == id)
+                .Select(c => c.UserId)
+                .Distinct()
+                .ToList();
+            var users = _context.Users
+                .Where(u => usersIds.Contains(u.Id))
+                .ToList();
+            var comments = _context.Comments
+                .Where(c => c.BlogId == id)
+                .OrderByDescending(c => c.DatePosted)
+                .ToList();
+
             var vm = new BlogBlogViewModel
             {
                 Blog = blog,
-                User = user,
+                Users = users,
+                Comments = comments,
+                Owner = owner
             };
             return View(vm);
         }
@@ -125,6 +141,24 @@ namespace BlogApp.Controllers
 
             // Vrátime JSON odpoveď
             return Json(filteredBlogs);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddComment(string content, int blogId)
+        {
+            var userId = HttpContext.Session.GetInt32("userId");
+            var comment = new Comment
+            {
+                Body = content,
+                DatePosted = DateTime.Now,
+                UserId = userId.Value,
+                BlogId = blogId
+            };
+
+            await _context.Comments.AddAsync(comment);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Blog", "Blog", new { id = blogId });
         }
     }
 }

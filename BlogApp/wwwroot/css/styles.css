@@ -61,11 +61,15 @@ p.home-blog-date-posted::before {
     content: "Posted: ";
     color: #00000077;
 }
+.comments-section {
+    margin: 3em 3em;
+    padding: 3em 3em;
+    background-color: #00000003;
+}
 
 
 .blog-whoposted-img {
-    padding: 3em;
-    height: 100%;
+    width: 20rem;
     aspect-ratio: 1 / 1;
 }
 
@@ -80,6 +84,7 @@ p.home-blog-date-posted::before {
 
 .blog-main-container {
     background-color: #00000003;
+    margin-top: 2em;
 }
 
 .profile-container {
@@ -90,10 +95,10 @@ p.home-blog-date-posted::before {
 .profile-whoami-img {
     height: 100px;
     width : 100px;
-    /*aspect-ratio: 1 / 1;*/
+    aspect-ratio: 1 / 1;
 }
 
-@media (max-width: 768px) { /* Pre mobilné zariadenia */
+@media (max-width: 768px) { /* Pre tablety */
     .blog-whoposted-img {
         display: none;
     }
