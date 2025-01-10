@@ -57,6 +57,11 @@ p.user::before {
     color: #00000077;
 }
 
+p.home-blog-date-posted::before {
+    content: "Posted: ";
+    color: #00000077;
+}
+
 
 .blog-whoposted-img {
     padding: 3em;

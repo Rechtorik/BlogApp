@@ -17,6 +17,7 @@
                         <h3 class="fs-2 index-blog-name"> @blog.Title </h3>
                         <p>@blog.Body</p>
                         <p class="user">@Model.Users.Where(u => u.Id == blog.UserId).FirstOrDefault()?.Nick</p>
+                        <p class="home-blog-date-posted">@blog.DatePosted.ToString("dd.MM. yyyy")</p>
                     </div>
                 </div>
             </a>
