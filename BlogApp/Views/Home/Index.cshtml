@@ -4,7 +4,6 @@
 }
 
 @model BlogApp.Models.HomeIndexViewModel
-
 <!-- Content -->
 <div class="container px-4 py-4">
     <h2 class="pb-2 border-bottom">All Blogs, current user id: @(userId ?? 0)</h2>
@@ -17,7 +16,7 @@
                     <div class="blog-content">
                         <h3 class="fs-2 index-blog-name"> @blog.Title </h3>
                         <p>@blog.Body</p>
-                        <p class="user">@Model.Users.Where(u => u.Id == blog.UserId).FirstOrDefault()?.Nick @* Jozef Rechtorík *@</p>
+                        <p class="user">@Model.Users.Where(u => u.Id == blog.UserId).FirstOrDefault()?.Nick</p>
                     </div>
                 </div>
             </a>
@@ -44,7 +43,7 @@
 
                         data.forEach(function (blog) { // Zobrazíme nové výsledky (prilepím html kód na každý blog)
                             $('#blogs').append(`
-                                                                    <a href="/Blog/Blog/${blog.id}" class="index-blog-container-outer">
+                            <a href="/Blog/Blog/${blog.id}" class="index-blog-container-outer">
                                         <div class="col d-flex align-items-start pb-4 index-blog-container-inner">
                                             <div class="blog-content">
                                                         <h3 class="fs-2 index-blog-name"> ${blog.title} </h3>
@@ -52,8 +51,7 @@
                                                 <p class="user">${blog.user}</p>
                                             </div>
                                         </div>
-                                    </a>
-                                                `);
+                                    </a>`);
                         });
                     },
                     error: function (xhr, status, error) {

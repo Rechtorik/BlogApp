@@ -70,8 +70,9 @@ namespace BlogApp.Controllers
             _context.SaveChanges();
 
             HttpContext.Session.SetInt32("userId", user.Id);
+            HttpContext.Session.SetString("userName", user.Nick);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { ownerOnly = false });
         }
     }
 }

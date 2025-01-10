@@ -12,12 +12,12 @@
 @model BlogApp.Models.User;
 
 <div class="row d-flex justify-content-center align-items-center w-100 px-5">
-    <div class="col-md-8 col-lg-6 col-xl-5 offset-xl-1 py-lg-5 profile-container">
-        <div class="profile-image-container">
-            <img src="/images/matus_fotka.jpg" alt="user photo" class="rounded-circle col-lg-3 ms-lg-3 profile-whoami-img">
+    <div class="col-md-8 col-lg-6 col-xl-5 mb-sm-3 offset-xl-1 py-lg-5 profile-container">
+        <div class="profile-image-container mb-4">
+            <img src="@Model.ImagePath" alt="user photo" class="rounded-circle col-lg-3 ms-lg-3 profile-whoami-img">
         </div>
         <h4 class="mb-3">Profile settings</h4>
-        <form asp-action="UpdateProfile" method="post">
+        <form asp-action="UpdateProfile" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label asp-for="Name">First Name</label>
@@ -39,8 +39,14 @@
                 <label asp-for="Login">Login</label>
                 <input asp-for="Login" type="text" type="text" class="form-control" placeholder="@Model.Login">
             </div>
+            <div class="mb-3">
+                <label class="form-label">Profilová fotka:</label>
+                <input type="file" name="image" id="image" class="form-control" accept="image/*">
+            </div>
             <input type="hidden" asp-for="Id" />
-            <button class="btn btn-primary btn-lg btn-block" type="submit">Save changes</button>
+            <div class="text-start">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Save changes</button>
+            </div>
         </form>
     </div>
     <div class="col-md-9 col-lg-6 col-xl-6 my-lg-5">

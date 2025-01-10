@@ -21,14 +21,17 @@
                 <li><a asp-controller="Home" asp-action="Index" class="nav-link px-2 link-secondary">All blogs</a></li>
                 <li><a asp-controller="Home" asp-action="Index" asp-route-ownerOnly="true" class="nav-link px-2 link-body-emphasis">My blogs</a></li>
             </ul>
-
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                <input type="search" class="form-control" placeholder="Search user..." aria-label="Search" id="searchUser">
-            </form>
+            @if (ViewContext.RouteData.Values["action"]?.ToString() == "Index" &&
+            ViewContext.RouteData.Values["controller"]?.ToString() == "Home")
+            {
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                    <input type="search" class="form-control" placeholder="Search user..." aria-label="Search" id="searchUser">
+                </form>
+            }
 
             <div class="dropdown text-end">
                 <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="/images/matus_fotka.jpg" alt="user photo" width="32" height="32" class="rounded-circle">
+                    <img src="" alt="user photo" width="32" height="32" class="rounded-circle">
                 </a>
                 <ul class="dropdown-menu text-small" style="">
                     <li><a class="dropdown-item" asp-action="Add" asp-controller="Blog"><i class="bi bi-plus-square"></i> Add blog</a></li>

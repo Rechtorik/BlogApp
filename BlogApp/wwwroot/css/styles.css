@@ -78,8 +78,8 @@ p.user::before {
 }
 
 .profile-container {
-    width: 100%;
-    margin: 3rem;
+    /*width: 100%;*/
+    /*margin: 3rem;*/
     text-align: center;
 }
 .profile-whoami-img {

@@ -22,9 +22,10 @@ namespace BlogApp.Controllers
             var userId = HttpContext.Session.GetInt32("userId");
             if (userId == null)
             {
-                return RedirectToAction("Index", "Authentication");
+                return RedirectToAction("Logout", "Authentication");
             }
 
+            var userNick = _context.Users.FirstOrDefault(u => u.Id == userId).Nick;
             // Naèítanie všetkých blogov z databázy
             var blogs = _context.Blogs.ToList();
 
