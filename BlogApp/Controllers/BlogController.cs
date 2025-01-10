@@ -25,7 +25,7 @@ namespace BlogApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddBlogViewModel viewModel)
+        public async Task<IActionResult> Add(Blog viewModel)
         {
             var userId = HttpContext.Session.GetInt32("userId");
             if (!userId.HasValue)

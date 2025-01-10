@@ -77,6 +77,16 @@ p.user::before {
     background-color: #00000003;
 }
 
+.profile-container {
+    width: 100%;
+    margin: 3rem;
+    text-align: center;
+}
+.profile-whoami-img {
+    height: 100px;
+    width : 100px;
+    /*aspect-ratio: 1 / 1;*/
+}
 
 @media (max-width: 768px) { /* Pre mobilné zariadenia */
     .blog-whoposted-img {

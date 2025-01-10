@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Profile";
+    if (TempData["loginExists"] != null)
+    {
+        <script>
+            alert("Takýto login je už zabratý!");
+        </script>
+        TempData.Remove("loginExists");
+    }
+}
+
+@model BlogApp.Models.User;
+
+<div class="row d-flex justify-content-center align-items-center w-100 px-5">
+    <div class="col-md-8 col-lg-6 col-xl-5 offset-xl-1 py-lg-5 profile-container">
+        <div class="profile-image-container">
+            <img src="/images/matus_fotka.jpg" alt="user photo" class="rounded-circle col-lg-3 ms-lg-3 profile-whoami-img">
+        </div>
+        <h4 class="mb-3">Profile settings</h4>
+        <form asp-action="UpdateProfile" method="post">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Name">First Name</label>
+                    <input asp-for="Name" type="text" class="form-control" placeholder="@Model.Name">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Surname">Last name</label>
+                    <input asp-for="Surname" type="text" type="text" class="form-control" placeholder="@Model.Surname">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Nick">Nick</label>
+                <div class="input-group">
+                    <input asp-for="Nick" type="text" type="text" class="form-control" placeholder="@Model.Nick">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Login">Login</label>
+                <input asp-for="Login" type="text" type="text" class="form-control" placeholder="@Model.Login">
+            </div>
+            <input type="hidden" asp-for="Id" />
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Save changes</button>
+        </form>
+    </div>
+    <div class="col-md-9 col-lg-6 col-xl-6 my-lg-5">
+        <img src="images/undraw_wall-post_e47r.svg" class="img-fluid" alt="Login image">
+    </div>
+</div>
