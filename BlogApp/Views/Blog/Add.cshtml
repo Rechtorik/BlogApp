@@ -10,7 +10,7 @@
 <!-- Form -->
 <div class="container mt-5 add-blog-form">
     <h2 class="mb-4">Add new blog</h2>
-    <form method="post">
+    <form method="post" asp-action="Add">
         <div class="mb-3">
             <label for="blogTitle" class="form-label">Title of the blog</label>
             <input type="text" class="form-control" id="blogTitle" asp-for="Title" required>
@@ -18,6 +18,10 @@
         <div class="mb-3">
             <label for="blogText" class="form-label">Body of the blog</label>
             <textarea class="form-control" id="blogText" rows="5" asp-for="Body" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="blogTags" class="form-label">Tags</label>
+            <textarea class="form-control" id="blogTags" rows="1" name="tags"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Add this blog</button>
     </form>

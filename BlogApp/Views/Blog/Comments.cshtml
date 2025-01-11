@@ -1,4 +1,7 @@
-﻿@model BlogApp.Models.BlogBlogViewModel
+﻿@{
+    var idLoggedUser = Context.Session.GetInt32("userId");
+}
+@model BlogApp.Models.BlogBlogViewModel
 
 <div class="comments-section border">
 
@@ -18,12 +21,23 @@
             <button type="submit" class="btn btn-primary">Submit Comment</button>
         </form>
     </div>
-
-    <h4>Comments</h4>
-    @foreach (var comment in Model.Comments)
-    {
-        <div class="comment">
-            <p>@Model.Users.Where(u => u.Id == comment.UserId).FirstOrDefault().Nick : @comment.Body</p>
-        </div>
-    }
+    <div class="comments-section-comments">
+        <h4>Comments</h4>
+        @foreach (var comment in Model.Comments)
+        {
+            <div class="comment" id="@comment.Id">
+                <p>
+                    @Model.Users.Where(u => u.Id == comment.UserId).FirstOrDefault().Nick : @comment.Body
+                    @if (comment.UserId == idLoggedUser.Value)
+                    {
+                        <br>
+                        <form method="post" asp-action="DeleteComment" asp-controller="Blog">
+                            <input type="hidden" name="commentId" value="@comment.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm ms-2 delete-comment">Delete</button>
+                        </form>
+                    }
+                </p>
+            </div>
+        }
+    </div>
 </div>

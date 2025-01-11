@@ -18,6 +18,12 @@
                         <p>@blog.Body</p>
                         <p class="user">@Model.Users.Where(u => u.Id == blog.UserId).FirstOrDefault()?.Nick</p>
                         <p class="home-blog-date-posted">@blog.DatePosted.ToString("dd.MM. yyyy")</p>
+                        @if (Model.Tags.Where(t => t.BlogId == blog.Id).Count() > 0)
+                        {
+                            <p class="home-blog-tags">
+                                @string.Join(", ", Model.Tags.Where(t => t.BlogId == blog.Id).Select(t => t.Content))
+                            </p>
+                        }
                     </div>
                 </div>
             </a>

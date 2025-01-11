@@ -18,6 +18,10 @@
                 @Html.Raw(Model.Blog.Body)
             </p>
             <p class="user"> @Model.Owner.Nick </p>
+            @if (ViewBag.Tags != null && ((IEnumerable<Tag>)ViewBag.Tags).Count() > 0)
+            {
+                <p class="tags"> @string.Join(", ", ((IEnumerable<Tag>)ViewBag.Tags).Where(t => t.BlogId == Model.Blog.Id).Select(t => t.Content)) </p> 
+            }
         </div>
     </div>
     <a onclick="Back()" class="btn btn-secondary rounded-pill px-3" role="button">Back</a>

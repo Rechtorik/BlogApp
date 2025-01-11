@@ -36,6 +36,7 @@ namespace BlogApp.Controllers
 
             // Naèítanie všetkých userov z databázy
             var users = _context.Users.ToList();
+            var tags = _context.Tags.ToList();
 
             if (ownerOnly.HasValue && ownerOnly == true) 
             {
@@ -44,7 +45,8 @@ namespace BlogApp.Controllers
             var model = new HomeIndexViewModel
             {
                 Blogs = blogs,
-                Users = users
+                Users = users,
+                Tags = tags
             };
             return View(model);
         }

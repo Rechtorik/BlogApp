@@ -61,6 +61,14 @@ p.home-blog-date-posted::before {
     content: "Posted: ";
     color: #00000077;
 }
+p.home-blog-tags::before {
+    content: "Tags: ";
+    color: #00000077;
+}
+.blog-main-container .tags::before {
+    content: "Tags: ";
+    color: #00000077;
+}
 .comments-section {
     margin: 3em 3em;
     padding: 3em 3em;
@@ -96,6 +104,10 @@ p.home-blog-date-posted::before {
     height: 100px;
     width : 100px;
     aspect-ratio: 1 / 1;
+}
+
+.comments-section-comments {
+    margin-top: 3em;
 }
 
 @media (max-width: 768px) { /* Pre tablety */

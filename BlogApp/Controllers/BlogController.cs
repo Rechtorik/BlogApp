@@ -30,6 +30,10 @@ namespace BlogApp.Controllers
                 .Where(c => c.BlogId == id)
                 .OrderByDescending(c => c.DatePosted)
                 .ToList();
+            var tags = _context.Tags
+                .Where(t => t.BlogId == id)
+                .ToList();
+            ViewBag.Tags = tags;
 
             var vm = new BlogBlogViewModel
             {
@@ -46,12 +50,12 @@ namespace BlogApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(Blog viewModel)
+        public async Task<IActionResult> Add(Blog viewModel, string tags)
         {
             var userId = HttpContext.Session.GetInt32("userId");
-            if (!userId.HasValue)
+            if (userId == null)
             {
-                userId = 0;
+                return RedirectToAction("Logout", "Authentication");
             }
             var blog = new Blog
             {
@@ -61,9 +65,26 @@ namespace BlogApp.Controllers
                 UserId = userId.Value
             };
 
-            await _context.Blogs.AddAsync(blog);
-            await _context.SaveChangesAsync();
+            _context.Blogs.Add(blog);
+            _context.SaveChanges();
 
+            char[] delimiters = { ',', ' ' }; // Zoznam znakov, podľa ktorých sa bude deliť
+            string[] allTags = tags.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+
+            blog = _context.Blogs.FirstOrDefault(b => b.Id == blog.Id);
+
+            foreach (string oneTag in allTags)
+            {
+                var tag = new Tag
+                {
+                    Content = oneTag,
+                    BlogId = blog.Id,
+                    UserId = blog.UserId
+                };
+
+                await _context.Tags.AddAsync(tag);
+                await _context.SaveChangesAsync();
+            }
             return RedirectToAction("Index", "Home");
         }
 
@@ -102,7 +123,7 @@ namespace BlogApp.Controllers
         [HttpGet]
         public IActionResult GetFilteredBlogs(string keyword)
         {
-            if(keyword == "[none]")
+            if (keyword == "[none]")
             {
                 var allBlogs = _context.Blogs
                 .Select(b => new
@@ -159,6 +180,26 @@ namespace BlogApp.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Blog", "Blog", new { id = blogId });
+        }
+
+        [HttpPost]
+        public IActionResult DeleteComment(int commentId) 
+        {
+            var commentInDb = _context.Comments.Where(c => c.Id == commentId).FirstOrDefault();
+
+            if (commentInDb.UserId != HttpContext.Session.GetInt32("userId")) 
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (commentInDb != null)
+            {
+                var blogId = commentInDb.BlogId;
+                _context.Comments.Remove(commentInDb);
+                _context.SaveChangesAsync();
+                return RedirectToAction("Blog", "Blog", new { id = blogId });
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }
