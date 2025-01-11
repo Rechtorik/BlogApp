@@ -60,6 +60,7 @@ namespace BlogApp.Controllers
                     image.CopyTo(stream);
                 }
                 userInDb.ImagePath = $"/images/profileImages/{randomFileName}";
+                HttpContext.Session.SetString("userPhoto", userInDb.ImagePath);
                 _context.SaveChanges();
             }
 
@@ -90,6 +91,29 @@ namespace BlogApp.Controllers
             userInDb.Login = user.Login;
             _context.SaveChanges();
             return RedirectToAction("Index", "Profile");
+        }
+
+        public IActionResult DeleteProfile()
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == HttpContext.Session.GetInt32("userId"));
+            if (user == null)
+            {
+                return RedirectToAction("Logout", "Authentication");
+            }
+            // nevymazem ho z databazy, len mu vymažem login, heslo a fotku
+            if (user.ImagePath != null)
+            {
+                FileInfo fileInfo = new FileInfo(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", user.ImagePath.TrimStart('/')));
+                if (fileInfo.Exists)
+                {
+                    fileInfo.Delete();
+                }
+            }
+            user.Login = null;
+            user.Password = null;
+            user.ImagePath = null;
+            _context.SaveChanges();
+            return RedirectToAction("Logout", "Authentication");
         }
     }
 }

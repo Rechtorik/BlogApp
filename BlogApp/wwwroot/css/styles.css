@@ -116,6 +116,14 @@ p.home-blog-tags::before {
 .comments-section-comments {
     margin-top: 3em;
 }
+.blog-comment-whoposted-img {
+    height: 50px;
+    width: 50px;
+    aspect-ratio: 1 / 1;
+}
+.not-distorted {
+    object-fit: cover;
+}
 
 @media (max-width: 768px) { /* Pre tablety */
     .blog-whoposted-img {

@@ -27,6 +27,7 @@
         {
             <div class="comment" id="@comment.Id">
                 <p>
+                    <img src="@Model.Users.Where(u => u.Id == comment.UserId).FirstOrDefault()?.ImagePath" alt="user photo" class="rounded-circle blog-comment-whoposted-img not-distorted">
                     @Model.Users.Where(u => u.Id == comment.UserId).FirstOrDefault().Nick : @comment.Body
                     @if (comment.UserId == idLoggedUser.Value)
                     {

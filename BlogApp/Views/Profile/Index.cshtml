@@ -14,7 +14,7 @@
 <div class="row d-flex justify-content-center align-items-center w-100 px-5">
     <div class="col-md-8 col-lg-6 col-xl-5 mb-sm-3 offset-xl-1 py-lg-5 profile-container">
         <div class="profile-image-container mb-4">
-            <img src="@Model.ImagePath" alt="user photo" class="rounded-circle col-lg-3 ms-lg-3 profile-whoami-img">
+            <img src="@Model.ImagePath" alt="user photo" class="rounded-circle col-lg-3 ms-lg-3 profile-whoami-img not-distorted">
         </div>
         <h4 class="mb-3">Profile settings</h4>
         <form asp-action="UpdateProfile" method="post" enctype="multipart/form-data">
@@ -46,10 +46,23 @@
             <input type="hidden" asp-for="Id" />
             <div class="text-start">
                 <button class="btn btn-primary btn-lg btn-block" type="submit">Save changes</button>
+                <a onclick="confirmAction('/Profile/DeleteProfile')" class="btn btn-primary btn-lg btn-block danger">Delete profile</a>
             </div>
         </form>
     </div>
     <div class="col-md-9 col-lg-6 col-xl-6 my-lg-5">
         <img src="images/undraw_wall-post_e47r.svg" class="img-fluid" alt="Login image">
     </div>
-</div>
+</div#if>
+
+@section Scripts {
+    <script>
+            function confirmAction(url) {
+                if (confirm("Naozaj chcete vykonať túto akciu?")) {
+                    window.location.href = url;
+                } else {
+                    console.log("Akcia bola zrušená.");
+                }
+            }
+    </script>
+}

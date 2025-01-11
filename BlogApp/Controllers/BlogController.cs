@@ -34,9 +34,12 @@ namespace BlogApp.Controllers
                 .Where(t => t.BlogId == id)
                 .ToList();
             ViewBag.Tags = tags;
-            if (owner.ImagePath == null) 
+            foreach (var user in users)
             {
-                owner.ImagePath = "/images/profileImages/empty-profile-icon.png";
+                if (user.ImagePath == null) 
+                {
+                    user.ImagePath = "/images/profileImages/empty-profile-icon.png";
+                }
             }
 
             var vm = new BlogBlogViewModel
