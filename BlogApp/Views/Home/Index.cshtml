@@ -1,12 +1,15 @@
 ﻿@{
     ViewData["Title"] = "Hlavná stránka";
     var userId = Context.Session.GetInt32("userId");
+    var user = Model.Users.Where(u => u.Id == userId).FirstOrDefault();
+
 }
 
 @model BlogApp.Models.HomeIndexViewModel
 <!-- Content -->
 <div class="container px-4 py-4">
-    <h2 class="pb-2 border-bottom">All Blogs, current user id: @(userId ?? 0)</h2>
+    <h2 class="pb-2 border-bottom">Welcome @user.Nick</h2>
+
     <div class="row g-4 py-5 row-cols-1 row-cols-lg-2" id="blogs">
 
         @foreach (var blog in Model.Blogs.Reverse())

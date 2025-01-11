@@ -74,6 +74,13 @@ p.home-blog-tags::before {
     padding: 3em 3em;
     background-color: #00000003;
 }
+.tags .editable-tag:hover {
+    cursor: pointer;
+}
+.tags .editable-tag {
+    font-style: italic;
+    font-weight: bold;
+}
 
 
 .blog-whoposted-img {

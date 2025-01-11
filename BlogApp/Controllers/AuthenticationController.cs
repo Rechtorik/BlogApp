@@ -24,11 +24,20 @@ namespace BlogApp.Controllers
                 return RedirectToAction("Index", "Authentication");
             }
             HttpContext.Session.SetInt32("userId", user.Id);
+            if (user.ImagePath == null)
+            {
+                HttpContext.Session.SetString("userPhoto", "/images/profileImages/empty-profile-icon.png");
+            }
+            else
+            {
+                HttpContext.Session.SetString("userPhoto", user.ImagePath);
+            }
             return RedirectToAction("Index", "Home", new { ownerOnly = false });
         }
         public IActionResult Logout()
         {
             HttpContext.Session.Remove("userId");
+            HttpContext.Session.Remove("userPhoto");
             return RedirectToAction("Index", "Authentication");
         }
         public IActionResult Index()

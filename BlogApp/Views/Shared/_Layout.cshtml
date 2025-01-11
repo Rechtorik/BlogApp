@@ -31,7 +31,7 @@
 
             <div class="dropdown text-end">
                 <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="" alt="user photo" width="32" height="32" class="rounded-circle">
+                    <img src="@Context.Session.GetString("userPhoto")" alt="user photo" width="32" height="32" class="rounded-circle">
                 </a>
                 <ul class="dropdown-menu text-small" style="">
                     <li><a class="dropdown-item" asp-action="Add" asp-controller="Blog"><i class="bi bi-plus-square"></i> Add blog</a></li>

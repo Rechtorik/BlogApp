@@ -20,7 +20,19 @@
             <p class="user"> @Model.Owner.Nick </p>
             @if (ViewBag.Tags != null && ((IEnumerable<Tag>)ViewBag.Tags).Count() > 0)
             {
-                <p class="tags"> @string.Join(", ", ((IEnumerable<Tag>)ViewBag.Tags).Where(t => t.BlogId == Model.Blog.Id).Select(t => t.Content)) </p> 
+                if (Model.Blog.UserId == userId.Value)
+                {
+                    <p class="tags">
+                    @foreach (var tag in (IEnumerable<Tag>)ViewBag.Tags)
+                    {
+                        <span class="editable-tag" data-tag-id="@tag.Id">@tag.Content</span>
+                    }
+                    </p>
+                }
+                else
+                {
+                    <p class="tags"> @string.Join(", ", ((IEnumerable<Tag>)ViewBag.Tags).Where(t => t.BlogId == Model.Blog.Id).Select(t => t.Content)) </p>
+                }
             }
         </div>
     </div>
@@ -35,9 +47,59 @@
 @Html.Partial("Comments", Model)
 
 @section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+
+        $(document).on("click", ".editable-tag", function () {
+            let tagElement = $(this);
+            let tagId = tagElement.data("tag-id");
+            let tagContent = tagElement.text().trim();
+
+            // Zmeňte span na input
+            tagElement.replaceWith(`
+                <input type="text" class="tag-editor" data-tag-id="${tagId}" value="${tagContent}" />
+            `);
+
+            // Automatické zaostrenie na nové input pole
+            $(".tag-editor").focus();
+        });
+
+        // Po stlačení Enter alebo opustení poľa sa uloží nový obsah
+        $(document).on("blur keypress", ".tag-editor", function (e) {
+            if (e.type === "blur" || (e.type === "keypress" && e.which === 13)) {
+                let inputElement = $(this);
+                let newTagContent = inputElement.val().trim();
+                let tagId = inputElement.data("tag-id");
+                
+                if (newTagContent === "") {
+                    newTagContent = "[none]";
+                }
+
+                // Pošleme nový obsah na server pomocou AJAX
+                $.ajax({
+                    url: "/Blog/UpdateTag", // ASP.NET kontrolér na aktualizáciu tagu
+                    method: "POST",
+                    data: { id: tagId, content: newTagContent },
+                    success: function (response) {
+                        if (newTagContent === "[none]") {
+                            inputElement.remove();
+                        } else {
+                            // Nahradíme input pôvodným span-om s aktualizovaným obsahom
+                            inputElement.replaceWith(`
+                                <span class="editable-tag" data-tag-id="${tagId}">${newTagContent}</span>
+                            `);
+                        }
+                    },
+                    error: function () {
+                        alert("Chyba pri aktualizácii tagu!");
+                    }
+                });
+            }
+        });
+
         function Back() {
             window.history.back();
         }
+
     </script>
 }

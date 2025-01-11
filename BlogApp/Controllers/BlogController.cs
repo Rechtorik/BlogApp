@@ -34,6 +34,10 @@ namespace BlogApp.Controllers
                 .Where(t => t.BlogId == id)
                 .ToList();
             ViewBag.Tags = tags;
+            if (owner.ImagePath == null) 
+            {
+                owner.ImagePath = "/images/profileImages/empty-profile-icon.png";
+            }
 
             var vm = new BlogBlogViewModel
             {
@@ -200,6 +204,30 @@ namespace BlogApp.Controllers
                 return RedirectToAction("Blog", "Blog", new { id = blogId });
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public IActionResult UpdateTag(int id, string content)
+        {
+            // Nájdite tag v databáze
+            var tag = _context.Tags.FirstOrDefault(t => t.Id == id);
+            if (tag == null)
+            {
+                return NotFound();
+            }
+
+            if (content == "[none]")
+            {
+                _context.Tags.Remove(tag);
+            } else
+            {
+                // Aktualizujte obsah tagu
+                tag.Content = content;
+            }
+            _context.SaveChanges();
+
+            // Vráťte úspešnú odpoveď
+            return Ok();
         }
     }
 }

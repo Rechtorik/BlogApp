@@ -16,6 +16,14 @@ namespace BlogApp.Controllers
             // LEN ZATIAL
             //HttpContext.Session.SetInt32("userId", 3);
             var user = _context.Users.FirstOrDefault(u => u.Id == HttpContext.Session.GetInt32("userId"));
+            if (user == null)
+            {
+                return RedirectToAction("Logout", "Authentication");
+            }
+            if (user.ImagePath == null)
+            {
+                user.ImagePath = "/images/profileImages/empty-profile-icon.png";
+            }
             return View(user);
         }
         [HttpPost]
@@ -76,16 +84,12 @@ namespace BlogApp.Controllers
                     return RedirectToAction("Index", "Profile");
                 }
             }
-            if (ModelState.IsValid) // toto uplne nerozumiem
-            {
-                userInDb.Name = user.Name;
-                userInDb.Surname = user.Surname;
-                userInDb.Nick = user.Nick;
-                userInDb.Login = user.Login;
-                _context.SaveChanges();
-                return RedirectToAction("Index", "Profile");
-            }
-            return RedirectToAction("Index", "Home");
+            userInDb.Name = user.Name;
+            userInDb.Surname = user.Surname;
+            userInDb.Nick = user.Nick;
+            userInDb.Login = user.Login;
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Profile");
         }
     }
 }
