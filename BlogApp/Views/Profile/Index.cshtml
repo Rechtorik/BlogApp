@@ -46,7 +46,8 @@
             <input type="hidden" asp-for="Id" />
             <div class="text-start">
                 <button class="btn btn-primary btn-lg btn-block" type="submit">Save changes</button>
-                <a onclick="confirmAction('/Profile/DeleteProfile')" class="btn btn-primary btn-lg btn-block danger">Delete profile</a>
+                <a onclick="confirmAction('/Profile/DeleteProfile')" class="btn btn-primary btn-lg btn-block danger">Delete profile</a><br>
+                <a onclick="Back()" class="btn btn-primary btn-lg btn-block danger">Back</a>
             </div>
         </form>
     </div>
@@ -63,6 +64,9 @@
                 } else {
                     console.log("Akcia bola zrušená.");
                 }
+            }
+            function Back() {
+                window.history.back();
             }
     </script>
 }

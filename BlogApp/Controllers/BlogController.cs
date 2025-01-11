@@ -42,6 +42,10 @@ namespace BlogApp.Controllers
                     user.ImagePath = "/images/profileImages/empty-profile-icon.png";
                 }
             }
+            if (owner.ImagePath == null)
+            {
+                owner.ImagePath = "/images/profileImages/empty-profile-icon.png";
+            }
 
             var vm = new BlogBlogViewModel
             {

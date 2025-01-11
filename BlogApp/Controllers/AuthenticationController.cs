@@ -1,6 +1,7 @@
 ﻿using BlogApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using BCrypt.Net;
 
 namespace BlogApp.Controllers
 {
@@ -16,8 +17,12 @@ namespace BlogApp.Controllers
         public IActionResult Login(string login, string password)
         {
             var user = _context.Users
-                .FirstOrDefault(u => EF.Functions.Collate(u.Login, "Latin1_General_BIN") == login
-                         && EF.Functions.Collate(u.Password, "Latin1_General_BIN") == password);
+                .FirstOrDefault(u => EF.Functions.Collate(u.Login, "Latin1_General_BIN") == login);
+
+            if (!BCrypt.Net.BCrypt.Verify(password, user.Password))
+            {
+                user = null;
+            }
 
             if (user == null)
             {
@@ -74,6 +79,9 @@ namespace BlogApp.Controllers
                 //return RedirectToAction("Register", "Authentication");
                 return View(user);
             }
+
+            // hashovanie hesla
+            user.Password = BCrypt.Net.BCrypt.HashPassword(password);
 
             _context.Users.Add(user);
             _context.SaveChanges();
