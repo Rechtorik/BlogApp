@@ -125,6 +125,10 @@ p.home-blog-tags::before {
     object-fit: cover;
 }
 
+.index-search-item {
+    margin: 0.5em;
+}
+
 @media (max-width: 768px) { /* Pre tablety */
     .blog-whoposted-img {
         display: none;

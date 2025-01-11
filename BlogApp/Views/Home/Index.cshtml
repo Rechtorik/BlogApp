@@ -26,6 +26,11 @@
                             <p class="home-blog-tags">
                                 @string.Join(", ", Model.Tags.Where(t => t.BlogId == blog.Id).Select(t => t.Content))
                             </p>
+                        } else
+                        {
+                            <p class="home-blog-tags">
+                                No tags
+                            </p>
                         }
                     </div>
                 </div>
@@ -39,7 +44,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#searchUser').on('input', function () { // input sa púšta vždy keď sa zmení input
+            $('#searchUserOrTag').on('input', function () {
                 let searchValue = $(this).val().trim(); // to čo je v inpute (bez bielych znakov)
                 if (searchValue === "") { // ak je input prázdny tak sa pošle špeciálny reťazec [none], mohlo by to byť aj lepšie, ale toto aspoň funguje
                     searchValue = "[none]";
@@ -47,21 +52,24 @@
                 $.ajax({
                     url: '/Blog/GetFilteredBlogs',
                     method: 'GET',
-                    data: { keyword: searchValue }, // Pošleme prázdny reťazec
+                    data: { keyword: searchValue },
                     success: function (data) {
-                        $('#blogs').empty(); // Vyčistíme existujúce výsledky
+                        $('#blogs').empty();
 
-                        data.forEach(function (blog) { // Zobrazíme nové výsledky (prilepím html kód na každý blog)
+                        data.forEach(function (blog) {
+                            let tags = blog.tags.length > 0 ? blog.tags.join(', ') : 'No tags';
                             $('#blogs').append(`
                             <a href="/Blog/Blog/${blog.id}" class="index-blog-container-outer">
-                                        <div class="col d-flex align-items-start pb-4 index-blog-container-inner">
-                                            <div class="blog-content">
-                                                        <h3 class="fs-2 index-blog-name"> ${blog.title} </h3>
-                                                <p> ${blog.body}</p>
-                                                <p class="user">${blog.user}</p>
-                                            </div>
-                                        </div>
-                                    </a>`);
+                <div class="col d-flex align-items-start pb-4 index-blog-container-inner">
+                    <div class="blog-content">
+                        <h3 class="fs-2 index-blog-name"> ${blog.title} </h3>
+                        <p> ${blog.body}</p>
+                        <p class="user">${blog.user}</p>
+                        <p class="home-blog-date-posted">${blog.datePosted}</p> <!-- Pridáme dátum -->
+                        <p class="home-blog-tags">${tags}</p> <!-- Pridáme tagy -->
+                    </div>
+                </div>
+            </a>`);
                         });
                     },
                     error: function (xhr, status, error) {

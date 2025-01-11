@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using System.Linq;
 
 namespace BlogApp.Controllers
 {
@@ -138,37 +139,89 @@ namespace BlogApp.Controllers
                     b.Id,
                     b.Title,
                     Body = b.Body.Replace("<br>", " "),
-                    b.DatePosted,
-                    User = _context.Users.Where(u => u.Id == b.UserId).FirstOrDefault().Nick
-
+                    DatePosted = b.DatePosted.ToString("dd.MM.yyyy"),
+                    User = _context.Users.Where(u => u.Id == b.UserId).FirstOrDefault().Nick,
+                    Tags = _context.Tags.Where(t => t.BlogId == b.Id).Select(t => t.Content).ToList()
                 })
                 .ToList();
                 allBlogs.Reverse();
-                // Vrátime JSON odpoveď
                 return Json(allBlogs);
             }
             var user = _context.Users.FirstOrDefault(u => u.Nick == keyword);
-            if (user == null)
+            var searchedTag = _context.Tags.FirstOrDefault(t => t.Content == keyword);
+            if (user == null && searchedTag == null)
             {
                 return Json(new List<Blog>());
             }
+
+            // Vyhľadávanie blogov podľa tagu
+
+            var blogsWithTagIds = _context.Tags
+                .Where(t => t.Content == keyword)
+                .Select(t => new
+                {
+                    t.BlogId
+                })
+                .ToList();
+
+            var blogsWithTag = _context.Blogs
+                .Where(b => blogsWithTagIds.Select(t => t.BlogId).Contains(b.Id))
+                .Select(b => new
+                {
+                    b.Id,
+                    b.Title,
+                    b.Body,
+                    DatePosted = b.DatePosted.ToString("dd.MM.yyyy"),
+                    User = _context.Users.Where(u => u.Id == b.UserId).FirstOrDefault().Nick,
+                    Tags = _context.Tags.Where(t => t.BlogId == b.Id).Select(t => t.Content).ToList()
+
+                })
+                .ToList();
+
+            // Vyhľadávanie blogov podľa usera
+
+            if (user == null)
+            {
+                return Json(blogsWithTag);
+            }
             int userId = user.Id;
-            var filteredBlogs = _context.Blogs
+            var blogsWithUser = _context.Blogs
                 .Where(b => b.UserId == userId)
                 .Select(b => new
                 {
                     b.Id,
                     b.Title,
                     b.Body,
-                    b.DatePosted,
-                    User = _context.Users.Where(u => u.Id == userId).FirstOrDefault().Nick
-
+                    DatePosted = b.DatePosted.ToString("dd.MM.yyyy"),
+                    User = _context.Users.Where(u => u.Id == b.UserId).FirstOrDefault().Nick,
+                    Tags = _context.Tags.Where(t => t.BlogId == b.Id).Select(t => t.Content).ToList()
                 })
                 .ToList();
-            filteredBlogs.Reverse();
 
-            // Vrátime JSON odpoveď
-            return Json(filteredBlogs);
+            if (blogsWithUser.Any() && blogsWithTag.Any())
+            {
+                var mergedBlogs = blogsWithTag.Concat(blogsWithUser)
+                    .Select(b => new
+                    {
+                        b.Id,
+                        b.Title,
+                        b.Body,
+                        b.DatePosted,
+                        b.User,
+                        b.Tags
+                    })
+                    .ToList();
+                mergedBlogs = mergedBlogs.OrderByDescending(b => b.DatePosted).ToList();
+                return Json(mergedBlogs);
+            }
+            else if (blogsWithUser.Any())
+            {
+                return Json(blogsWithUser);
+            }
+            else
+            {
+                return Json(blogsWithTag);
+            }
         }
 
         [HttpPost]

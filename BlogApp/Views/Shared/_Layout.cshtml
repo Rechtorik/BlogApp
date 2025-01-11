@@ -24,9 +24,9 @@
             @if (ViewContext.RouteData.Values["action"]?.ToString() == "Index" &&
             ViewContext.RouteData.Values["controller"]?.ToString() == "Home")
             {
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                    <input type="search" class="form-control" placeholder="Search user..." aria-label="Search" id="searchUser">
-                </form>
+                <div class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                    <input type="search" class="form-control index-search-item" placeholder="Search user or tag..." aria-label="Search" id="searchUserOrTag">
+                </div>
             }
 
             <div class="dropdown text-end">
