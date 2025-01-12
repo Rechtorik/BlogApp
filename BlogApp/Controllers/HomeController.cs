@@ -8,15 +8,13 @@ namespace BlogApp.Controllers
     {
 
         private readonly BlogContext _context;
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger, BlogContext context)
+        public HomeController(BlogContext context)
         {
-            _logger = logger;
             _context = context;
         }
 
-        public IActionResult Index(bool? ownerOnly)
+        public IActionResult Index(bool? ownerOnly, int page = 1)
         {
             // kontrola èi je používate¾ prihlásený
             var userId = HttpContext.Session.GetInt32("userId");
@@ -25,9 +23,20 @@ namespace BlogApp.Controllers
                 return RedirectToAction("Logout", "Authentication");
             }
 
-            var userNick = _context.Users.FirstOrDefault(u => u.Id == userId).Nick;
             // Naèítanie všetkých blogov z databázy
-            var blogs = _context.Blogs.ToList();
+            var blogs = _context.Blogs
+                .OrderByDescending(b => b.DatePosted)
+                .Skip((page - 1) * 10) // strany budú ma 10 blogov
+                .Take(10)
+                .ToList();
+
+            int totalBlogs = _context.Blogs.Count();
+            int totalPages = (int)Math.Ceiling((double)totalBlogs / 10);
+
+            // Odovzdáme blogy + metaúdaje o stránkovaní do poh¾adu
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+
 
             foreach (var blog in blogs)
             {
@@ -38,7 +47,7 @@ namespace BlogApp.Controllers
             var users = _context.Users.ToList();
             var tags = _context.Tags.ToList();
 
-            if (ownerOnly.HasValue && ownerOnly == true) 
+            if (ownerOnly.HasValue && ownerOnly == true && userId > 0) 
             {
                 blogs = blogs.Where(b => b.UserId == userId).ToList();
             }

@@ -3,7 +3,7 @@
     ViewData["Title"] = "Login";
 }
 
-<div class="row d-flex justify-content-center align-items-center w-100 px-5 border">
+<div class="row d-flex justify-content-center align-items-center w-100 px-5">
     <div class="col-md-9 col-lg-6 col-xl-6 my-lg-5">
         <img src="images/undraw_fingerprint-login_19qv.svg" class="img-fluid" alt="Login image">
     </div>
@@ -26,6 +26,7 @@
             <div class="text-center text-lg-start mt-4 pt-2">
                 <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;" data-mdb-button-initialized="true">Login</button>
                 <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a asp-controller="Authentication" asp-action="Register">Register</a></p>
+                <p class="small fw-bold mt-2 pt-1 mb-0">Use guest mode <a asp-controller="Authentication" asp-action="GuestLogin">Guest</a></p>
             </div>
 
         </form>

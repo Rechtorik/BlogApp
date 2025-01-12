@@ -53,8 +53,14 @@ namespace BlogApp.Controllers
         {
             return View();
         }
+        public IActionResult GuestLogin()
+        {
+            HttpContext.Session.SetInt32("userId", -1);
+            HttpContext.Session.SetString("userPhoto", "/images/profileImages/empty-profile-icon.png");
+            return RedirectToAction("Index", "Home", new { ownerOnly = false });
+        }
         [HttpPost]
-        public IActionResult Register(string name, string surname, string nick, string login, string password)
+        public IActionResult Register(string name, string surname, string nick, string login, string password, DateTime date)
         {
             var user = new User
             {
@@ -62,7 +68,8 @@ namespace BlogApp.Controllers
                 Surname = surname,
                 Nick = nick,
                 Login = login,
-                Password = password
+                Password = password,
+                BirthDate = date
             };
 
             if (name == null || surname == null || nick == null || login == null || password == null) 

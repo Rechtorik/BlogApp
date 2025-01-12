@@ -49,6 +49,15 @@
                 </div>
             </div>
 
+            <!-- BirthDate input -->
+            <div data-mdb-input-init="" class="form-outline mb-4" data-mdb-input-initialized="true">
+                <input type="date" class="form-control form-control-lg" name="date" placeholder="Date of birth" required>
+                <div class="form-notch">
+                    <div class="form-notch-leading" style="width: 9px;"></div>
+                    <div class="form-notch-middle" style="width: 88.8px;"></div><div class="form-notch-trailing"></div>
+                </div>
+            </div>
+
             <!-- Login input -->
             <div data-mdb-input-init="" class="form-outline mb-4" data-mdb-input-initialized="true">
                 <input type="text" class="form-control form-control-lg" name="login" placeholder="Login">
@@ -69,7 +78,7 @@
 
             <div class="text-center text-lg-start mt-4 pt-2">
                 <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;" data-mdb-button-initialized="true">Register</button>
-                <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a asp-controller="Authentication" asp-action="Index">Login</a></p>
+                <p class="small fw-bold mt-2 pt-1 mb-0">Already have an account? <a asp-controller="Authentication" asp-action="Index">Login</a></p>
             </div>
 
         </form>

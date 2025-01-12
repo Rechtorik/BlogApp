@@ -3,6 +3,7 @@
 body {
     --index-blog-title-color: #3498db;
     font-size: 1em;
+    overflow-y: scroll;
 }
 
 .login-gray-background {

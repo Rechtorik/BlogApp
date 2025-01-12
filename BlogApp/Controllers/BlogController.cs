@@ -47,6 +47,7 @@ namespace BlogApp.Controllers
                 owner.ImagePath = "/images/profileImages/empty-profile-icon.png";
             }
 
+
             var vm = new BlogBlogViewModel
             {
                 Blog = blog,

@@ -2,17 +2,20 @@
     ViewData["Title"] = "Hlavná stránka";
     var userId = Context.Session.GetInt32("userId");
     var user = Model.Users.Where(u => u.Id == userId).FirstOrDefault();
-
+    int currentPage = ViewBag.CurrentPage;
+    int totalPages = ViewBag.TotalPages;
 }
 
 @model BlogApp.Models.HomeIndexViewModel
+
+
 <!-- Content -->
 <div class="container px-4 py-4">
-    <h2 class="pb-2 border-bottom">Welcome @user.Nick</h2>
+    <h2 class="pb-2 border-bottom">Welcome @((user != null) ? user.Nick : "Guest")</h2>
 
+    <!-- Blogy  -->
     <div class="row g-4 py-5 row-cols-1 row-cols-lg-2" id="blogs">
-
-        @foreach (var blog in Model.Blogs.Reverse())
+        @foreach (var blog in Model.Blogs)
         {
             <a asp-action="Blog" asp-controller="Blog" asp-route-id="@blog.Id" class="index-blog-container-outer">
                 <div class="col d-flex align-items-start pb-4 index-blog-container-inner">
@@ -36,8 +39,32 @@
                 </div>
             </a>
         }
-
     </div>
+    <!-- Navbar  -->
+    <nav class="home-nav-bar">
+        <ul class="pagination">
+            @if (currentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index", new { page = currentPage - 1 })">Previous</a>
+                </li>
+            }
+
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(i == currentPage ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                </li>
+            }
+
+            @if (currentPage < totalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index", new { page = currentPage + 1 })">Next</a>
+                </li>
+            }
+        </ul>
+    </nav>
 </div>
 
 @section Scripts {
