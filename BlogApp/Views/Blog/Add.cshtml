@@ -24,7 +24,21 @@
             <textarea class="form-control" id="blogTags" rows="1" name="tags"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Add this blog</button>
+        <a onclick="Back()" class="btn btn-secondary" role="button">Back</a>
     </form>
-    <a onclick="Back()" class="btn btn-secondary rounded-pill px-3" role="button">Back</a>
 </div>
+
+<script>
+    document.getElementById("registerForm").onsubmit = function () {
+        let title = document.getElementById("blogTitle").value;
+        let body = document.getElementById("blogText").value;
+        let tags = document.getElementById("blogTags").value;
+
+        if (title === "" || body === "") {
+            alert("Please fill in all fields.");
+            event.preventDefault();
+        }
+    }
+</script>
+
 <script src="~/js/script.js"></script>

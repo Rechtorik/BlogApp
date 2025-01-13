@@ -4,31 +4,36 @@
 @model BlogApp.Models.BlogBlogViewModel
 
 <div class="comments-section border">
+    @if (Context.Session.GetInt32("userId") > 0)
+    {
+        <div>
+            <h4>Add a Comment</h4>
+            <form id="commentForm" asp-action="AddComment" asp-controller="Blog" method="post">
+                <input type="hidden" name="blogId" value="@Model.Blog.Id"/>
 
-    <div>
-        <h4>Add a Comment</h4>
-        <form asp-action="AddComment" asp-controller="Blog" method="post">
-            <!-- Skryté pole na identifikáciu blogu -->
-            <input type="hidden" name="blogId" value="@Model.Blog.Id"/>
+                <div class="mb-3">
+                    <textarea id="content" name="content" class="form-control" placeholder="Write your comment here" rows="2" required></textarea>
+                </div>
 
-            <!-- Pole na zadanie obsahu komentára -->
-            <div class="mb-3">
-                <label class="form-label">Comment</label>
-                <textarea name="content" class="form-control" placeholder="Write your comment here" rows="2" required></textarea>
-            </div>
-
-            <!-- Tlačidlo na odoslanie -->
-            <button type="submit" class="btn btn-primary">Submit Comment</button>
-        </form>
-    </div>
+                <button type="submit" class="btn btn-sm btn-primary">Submit Comment</button>
+            </form>
+        </div>
+    }
+    @if (Model.Comments.Any())
+    {
     <div class="comments-section-comments">
-        <h4>Comments</h4>
+        <h4>Comments:</h4>
         @foreach (var comment in Model.Comments)
         {
             <div class="comment" id="@comment.Id">
                 <p>
-                    <img src="@Model.Users.Where(u => u.Id == comment.UserId).FirstOrDefault()?.ImagePath" alt="user photo" class="rounded-circle blog-comment-whoposted-img not-distorted">
-                    @Model.Users.Where(u => u.Id == comment.UserId).FirstOrDefault().Nick : @comment.Body
+                    <div class="comment-owner">
+                        <img src="@Model.Users.Where(u => u.Id == comment.UserId).FirstOrDefault()?.ImagePath" alt="user photo" class="rounded-circle blog-comment-whoposted-img not-distorted">
+                        @Model.Users.Where(u => u.Id == comment.UserId).FirstOrDefault().Nick
+                    </div>
+                    <div class="comment-body">
+                        @comment.Body
+                    </div>
                     @if (comment.UserId == idLoggedUser.Value)
                     {
                         <br>
@@ -41,4 +46,16 @@
             </div>
         }
     </div>
+    }
 </div>
+
+<script>
+    document.getElementById("commentForm").onsubmit = function () {
+        let content = document.getElementById("content").value;
+
+        if (content === "") {
+            alert("Comment cannot be empty.");
+            event.preventDefault();
+        }
+    }
+</script>

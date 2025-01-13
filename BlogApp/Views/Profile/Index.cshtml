@@ -44,25 +44,25 @@
                 <input type="file" name="image" id="image" class="form-control" accept="image/*">
             </div>
             <input type="hidden" asp-for="Id" />
-            <div class="text-start">
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Save changes</button>
-                <a onclick="confirmAction('/Profile/DeleteProfile')" class="btn btn-primary btn-lg btn-block danger">Delete profile</a><br>
-                <a onclick="Back()" class="btn btn-primary btn-lg btn-block danger">Back</a>
+            <div class="d-flex gap-3">
+                <button class="btn btn-primary btn-lg btn-block w-100" type="submit">Save changes</button>
+                <a onclick="confirmAction('/Profile/DeleteProfile')" class="btn btn-primary btn-lg btn-block btn-danger w-100">Delete profile</a>
             </div>
         </form>
+        <div class="profile-container-bottom mt-3">
+            <a onclick="Back()" class="btn btn-light">Back</a
+        </div>
     </div>
+</div>
     <div class="col-md-9 col-lg-6 col-xl-6 my-lg-5">
         <img src="images/undraw_wall-post_e47r.svg" class="img-fluid" alt="Login image">
     </div>
-</div>
 
 @section Scripts {
     <script>
             function confirmAction(url) {
-                if (confirm("Naozaj chcete vykonať túto akciu?")) {
+                if (confirm("Do you really want to delete this profile?")) {
                     window.location.href = url;
-                } else {
-                    console.log("Akcia bola zrušená.");
                 }
             }
     </script>

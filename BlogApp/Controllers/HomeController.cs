@@ -24,7 +24,13 @@ namespace BlogApp.Controllers
             }
 
             // Naèítanie všetkých blogov z databázy
-            var blogs = _context.Blogs
+            var blogs = _context.Blogs.ToList();
+            if (ownerOnly.HasValue && ownerOnly == true && userId > 0)
+            {
+                blogs = blogs.Where(b => b.UserId == userId).ToList();
+            }
+
+            blogs = blogs
                 .OrderByDescending(b => b.DatePosted)
                 .Skip((page - 1) * 10) // strany budú ma 10 blogov
                 .Take(10)
@@ -47,10 +53,6 @@ namespace BlogApp.Controllers
             var users = _context.Users.ToList();
             var tags = _context.Tags.ToList();
 
-            if (ownerOnly.HasValue && ownerOnly == true && userId > 0) 
-            {
-                blogs = blogs.Where(b => b.UserId == userId).ToList();
-            }
             var model = new HomeIndexViewModel
             {
                 Blogs = blogs,

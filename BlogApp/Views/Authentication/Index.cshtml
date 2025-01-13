@@ -7,28 +7,34 @@
     <div class="col-md-9 col-lg-6 col-xl-6 my-lg-5">
         <img src="images/undraw_fingerprint-login_19qv.svg" class="img-fluid" alt="Login image">
     </div>
-    <div class="col-md-8 col-lg-6 col-xl-5 offset-xl-1  py-lg-5">
+    <div class="col-md-8 col-lg-6 col-xl-5 offset-xl-1 py-lg-5">
     <h1 class="mb-5">Blogs app</h1>
-        <form method="post" asp-controller="Authentication" asp-action="Login">
+        <form method="post" asp-controller="Authentication" asp-action="Login" id="loginForm">
             <!-- Login input -->
-            <div data-mdb-input-init="" class="form-outline mb-4" data-mdb-input-initialized="true">
-                <input type="text" id="form3Example3" class="form-control form-control-lg" name="login" placeholder="Login">
-                <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div>
-                <div class="form-notch-middle" style="width: 88.8px;"></div><div class="form-notch-trailing"></div></div>
+            <div  class="form-outline mb-4">
+                <input type="text" id="loginInput" class="form-control form-control-lg" name="login" placeholder="Login">
             </div>
-
             <!-- Password input -->
-            <div data-mdb-input-init="" class="form-outline mb-3" data-mdb-input-initialized="true">
-                <input type="password" id="form3Example4" class="form-control form-control-lg" name="password" placeholder="Password">
-                <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 64px;"></div><div class="form-notch-trailing"></div></div>
+            <div data-mdb-input-init="" class="form-outline mb-3" >
+                <input type="password" id="passwordInput" class="form-control form-control-lg" name="password" placeholder="Password">
             </div>
 
             <div class="text-center text-lg-start mt-4 pt-2">
-                <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;" data-mdb-button-initialized="true">Login</button>
-                <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a asp-controller="Authentication" asp-action="Register">Register</a></p>
-                <p class="small fw-bold mt-2 pt-1 mb-0">Use guest mode <a asp-controller="Authentication" asp-action="GuestLogin">Guest</a></p>
+                <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                <p class="fw-bold mt-2 pt-1 mb-0">Don't have an account? <a asp-controller="Authentication" asp-action="Register">Register</a></p>
+                <p class="fw-bold mt-2 pt-1 mb-0">Use guest mode <a asp-controller="Authentication" asp-action="GuestLogin">Guest</a></p>
             </div>
-
         </form>
     </div>
 </div>
+
+<script>
+    document.getElementById("loginForm").onsubmit = function () {
+        let login = document.getElementById("loginInput").value;
+        let password = document.getElementById("passwordInput").value;
+
+        if (login === "" || password === "") {
+            alert("Please fill in all fields.");
+        }
+    }
+</script>

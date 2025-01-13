@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BCrypt.Net;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BlogApp.Controllers
 {
@@ -16,19 +17,24 @@ namespace BlogApp.Controllers
         [HttpPost]
         public IActionResult Login(string login, string password)
         {
+            if (login.IsNullOrEmpty() || password.IsNullOrEmpty())
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
             var user = _context.Users
                 .FirstOrDefault(u => EF.Functions.Collate(u.Login, "Latin1_General_BIN") == login);
-
-            if (!BCrypt.Net.BCrypt.Verify(password, user.Password))
-            {
-                user = null;
-            }
 
             if (user == null)
             {
                 return RedirectToAction("Index", "Authentication");
             }
+            if (!BCrypt.Net.BCrypt.Verify(password, user.Password))
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+
             HttpContext.Session.SetInt32("userId", user.Id);
+            HttpContext.Session.SetString("userNick", user.Nick);
             if (user.ImagePath == null)
             {
                 HttpContext.Session.SetString("userPhoto", "/images/profileImages/empty-profile-icon.png");
@@ -43,6 +49,7 @@ namespace BlogApp.Controllers
         {
             HttpContext.Session.Remove("userId");
             HttpContext.Session.Remove("userPhoto");
+            HttpContext.Session.Remove("userNick");
             return RedirectToAction("Index", "Authentication");
         }
         public IActionResult Index()
@@ -57,6 +64,7 @@ namespace BlogApp.Controllers
         {
             HttpContext.Session.SetInt32("userId", -1);
             HttpContext.Session.SetString("userPhoto", "/images/profileImages/empty-profile-icon.png");
+            HttpContext.Session.SetString("userNick", "Guest");
             return RedirectToAction("Index", "Home", new { ownerOnly = false });
         }
         [HttpPost]

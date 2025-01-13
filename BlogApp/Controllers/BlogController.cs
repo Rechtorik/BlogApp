@@ -104,6 +104,10 @@ namespace BlogApp.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
+            if (!HttpContext.Session.GetInt32("userId").HasValue)
+            {
+                return RedirectToAction("Logout", "Authentication");
+            }
             var blog = _context.Blogs.FirstOrDefault(b => b.Id == id);
             blog.Body = blog.Body.Replace("<br>", "\r\n");
             return View(blog);
@@ -112,14 +116,16 @@ namespace BlogApp.Controllers
         [HttpPost]
         public IActionResult Edit(Blog blog)
         {
-            if (ModelState.IsValid)
+            if (HttpContext.Session.GetInt32("userId") != blog.UserId)
             {
-                var existingBlog = _context.Blogs.FirstOrDefault(b => b.Id == blog.Id);
-                existingBlog.Title = blog.Title;
-                existingBlog.Body = blog.Body.Replace("\r\n", "<br>").Replace("\n", "<br>");
-                _context.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }
+            var existingBlog = _context.Blogs.FirstOrDefault(b => b.Id == blog.Id);
+            existingBlog.Title = blog.Title;
+            existingBlog.Body = blog.Body.Replace("\r\n", "<br>").Replace("\n", "<br>");
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Home");
+         
             return View(blog);
         }
 

@@ -8,19 +8,29 @@
 
 <div class="container mt-5 add-blog-form">
     <h2 class="mb-4">Edit Blog</h2>
-    <form asp-action="Edit" method="post">
+    <form id="editBlogForm" asp-action="Edit" method="post">
         <div class="mb-3">
             <label asp-for="Title" class="form-label"></label>
-            <input asp-for="Title" class="form-control" required/>
-            <span asp-validation-for="Title" class="text-danger"></span>
+            <input id ="blogTitle" asp-for="Title" class="form-control" required />
         </div>
         <div class="mb-3">
             <label asp-for="Body" class="control-label"></label>
-            <textarea asp-for="Body" class="form-control" rows="10" required></textarea>
-            <span asp-validation-for="Body" class="text-danger"></span>
+            <textarea id="blogBody" asp-for="Body" class="form-control" rows="10" required></textarea>
         </div>
         <input type="hidden" asp-for="Id" />
         <button type="submit" class="btn btn-primary">Save</button>
         <a onclick="Back()" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
+
+<script>
+    document.getElementById("editBlogForm").onsubmit = function () {
+        let title = document.getElementById("blogTitle").value;
+        let body = document.getElementById("blogText").value;
+
+        if (title === "" || body === "") {
+            alert("Please fill in all fields.");
+            event.preventDefault();
+        }
+    }
+</script>

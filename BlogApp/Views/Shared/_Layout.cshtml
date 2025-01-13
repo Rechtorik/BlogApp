@@ -28,6 +28,7 @@
             <div class="dropdown text-end">
                 <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="@Context.Session.GetString("userPhoto")" alt="user photo" width="32" height="32" class="rounded-circle not-distorted">
+                    <div class="navbar-nick">@Context.Session.GetString("userNick")</div>
                 </a>
                 <ul class="dropdown-menu text-small" style="">
                     @if (Context.Session.GetInt32("userId")>0)
