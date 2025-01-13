@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-
-namespace BlogApp.Models
+﻿namespace BlogApp.Models
 {
     public class Blog
     {

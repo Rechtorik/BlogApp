@@ -14,18 +14,18 @@
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 mynavbar-ul">
-                <li><a asp-controller="Home" asp-action="Index" class="nav-link px-2 link-secondary">All blogs</a></li>
-                <li><a asp-controller="Home" asp-action="Index" asp-route-ownerOnly="true" class="nav-link px-2 link-body-emphasis">My blogs</a></li>
+                <li><a asp-controller="Home" asp-action="Index" class="nav-link px-2 link-body-emphasis">All blogs</a></li>
+                <li><a asp-controller="Home" asp-action="Index" asp-route-ownerOnly="true" class="nav-link px-2 link-secondary">My blogs</a></li>
             </ul>
             @if (ViewContext.RouteData.Values["action"]?.ToString() == "Index" &&
             ViewContext.RouteData.Values["controller"]?.ToString() == "Home")
             {
                 <div class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                    <input type="search" class="form-control index-search-item" placeholder="Search user or tag..." aria-label="Search" id="searchUserOrTag">
+                    <input type="search" class="form-control index-search-item" placeholder="Search user or tag..." id="searchUserOrTag">
                 </div>
             }
 
-            <div class="dropdown text-end">
+            <div class="dropdown"> @* Dropdown skopírovaný a upraveý z examplov od Bootstrap *@
                 <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="@Context.Session.GetString("userPhoto")" alt="user photo" width="32" height="32" class="rounded-circle not-distorted">
                     <div class="navbar-nick">@Context.Session.GetString("userNick")</div>

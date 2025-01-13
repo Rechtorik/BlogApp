@@ -1,9 +1,7 @@
 ﻿using BlogApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.IdentityModel.Tokens;
-using System.Linq;
 
 namespace BlogApp.Controllers
 {
@@ -302,8 +300,6 @@ namespace BlogApp.Controllers
                 tag.Content = content;
             }
             _context.SaveChanges();
-
-            // Vráťte úspešnú odpoveď
             return Ok();
         }
     }

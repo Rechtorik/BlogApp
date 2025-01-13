@@ -1,7 +1,6 @@
 ﻿using BlogApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using BCrypt.Net;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BlogApp.Controllers
@@ -91,7 +90,6 @@ namespace BlogApp.Controllers
             if (sameUser != null)
             {
                 TempData["takenLogin"] = "true"; // stačí aby tam niečo bolo, nezáleží na hodnote
-                //return RedirectToAction("Register", "Authentication");
                 return View(user);
             }
 
@@ -103,6 +101,7 @@ namespace BlogApp.Controllers
 
             HttpContext.Session.SetInt32("userId", user.Id);
             HttpContext.Session.SetString("userPhoto", "/images/profileImages/empty-profile-icon.png");
+            HttpContext.Session.SetString("userNick", user.Nick);
 
             return RedirectToAction("Index", "Home", new { ownerOnly = false });
         }

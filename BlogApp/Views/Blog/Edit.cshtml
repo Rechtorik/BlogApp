@@ -9,11 +9,11 @@
     <h2 class="mb-4">Edit Blog</h2>
     <form id="editBlogForm" asp-action="Edit" method="post">
         <div class="mb-3">
-            <label asp-for="Title" class="form-label"></label>
+            <label asp-for="Title"></label>
             <input id ="blogTitle" asp-for="Title" class="form-control" required />
         </div>
         <div class="mb-3">
-            <label asp-for="Body" class="control-label"></label>
+            <label asp-for="Body"></label>
             <textarea id="blogBody" asp-for="Body" class="form-control" rows="10" required></textarea>
         </div>
         <input type="hidden" asp-for="Id" />

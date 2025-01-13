@@ -173,6 +173,10 @@ p.home-blog-tags::before {
         display: none;
     }
 
+    .auth-index-obrazok {
+        display: none;
+    }
+
     .container-header {
         padding: 0em 2em 1em 2em;
     }

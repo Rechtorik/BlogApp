@@ -1,6 +1,5 @@
 ﻿using BlogApp.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.Controllers
 {
@@ -13,8 +12,6 @@ namespace BlogApp.Controllers
         }
         public IActionResult Index()
         {
-            // LEN ZATIAL
-            //HttpContext.Session.SetInt32("userId", 3);
             var user = _context.Users.FirstOrDefault(u => u.Id == HttpContext.Session.GetInt32("userId"));
             if (user == null)
             {
