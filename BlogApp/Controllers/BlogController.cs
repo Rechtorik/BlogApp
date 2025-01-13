@@ -116,17 +116,11 @@ namespace BlogApp.Controllers
         [HttpPost]
         public IActionResult Edit(Blog blog)
         {
-            if (HttpContext.Session.GetInt32("userId") != blog.UserId)
-            {
-                return RedirectToAction("Index", "Home");
-            }
             var existingBlog = _context.Blogs.FirstOrDefault(b => b.Id == blog.Id);
             existingBlog.Title = blog.Title;
             existingBlog.Body = blog.Body.Replace("\r\n", "<br>").Replace("\n", "<br>");
             _context.SaveChanges();
             return RedirectToAction("Index", "Home");
-         
-            return View(blog);
         }
 
         public async Task<IActionResult> Delete(int id)

@@ -50,7 +50,7 @@
 </div>
 
 <script>
-    document.getElementById("commentForm").onsubmit = function () {
+    document.getElementById("commentForm").onsubmit = function (event) {
         let content = document.getElementById("content").value;
 
         if (content === "") {

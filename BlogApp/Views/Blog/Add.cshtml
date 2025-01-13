@@ -29,7 +29,7 @@
 </div>
 
 <script>
-    document.getElementById("registerForm").onsubmit = function () {
+    document.getElementById("registerForm").onsubmit = function (event) {
         let title = document.getElementById("blogTitle").value;
         let body = document.getElementById("blogText").value;
         let tags = document.getElementById("blogTags").value;

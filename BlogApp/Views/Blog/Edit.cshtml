@@ -2,7 +2,6 @@
     ViewData["Title"] = "Edit Blog";
 }
 
-
 @model BlogApp.Models.Blog
 
 
@@ -24,7 +23,7 @@
 </div>
 
 <script>
-    document.getElementById("editBlogForm").onsubmit = function () {
+    document.getElementById("editBlogForm").onsubmit = function (event) {
         let title = document.getElementById("blogTitle").value;
         let body = document.getElementById("blogText").value;
 

@@ -55,7 +55,7 @@
             let tagId = tagElement.data("tag-id");
             let tagContent = tagElement.text().trim();
 
-            // Zmeňte span na input
+            // Zmenenie span na input
             tagElement.replaceWith(`
                 <input type="text" class="tag-editor" data-tag-id="${tagId}" value="${tagContent}" />
             `);
