@@ -1,6 +1,6 @@
-#Návod na spustenie
+# Návod na spustenie
 
-##Požiadavky
+## Požiadavky
 Je potrebné aby bolo na počítači nainštalované:
 - **.NET SDK** (možné stiahnuť z oficiálnej stránky Microsoftu)
 - **vývojové prostredie Visual Studio** (ja som používal 2022 verziu)
