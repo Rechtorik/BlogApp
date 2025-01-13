@@ -16,6 +16,7 @@ body {
     width: 100%;
     padding: 0.5em 5em;
     z-index: 1;
+    box-shadow: 0 3px 10px 0px #00000050;
 }
 
 .index-blog-container-outer {
@@ -79,8 +80,7 @@ p.home-blog-tags::before {
     margin: 1em 0em;
     padding: 1em;
     font-size: 1.2em;
-    backg
-    round-color: #0000000A;
+    background-color: #0000000A;
 }
 
 .comment-owner {
@@ -92,7 +92,7 @@ p.home-blog-tags::before {
 .navbar-nick {
     display: inline;
     font-size: 1.5em;
-    margin: 0em 0.5em;
+    margin: 0em 0.2em 0em 0.5em;
 }
 
 .tags .editable-tag:hover {

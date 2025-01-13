@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.IdentityModel.Tokens;
 using System.Linq;
 
 namespace BlogApp.Controllers
@@ -80,23 +81,25 @@ namespace BlogApp.Controllers
 
             _context.Blogs.Add(blog);
             _context.SaveChanges();
-
-            char[] delimiters = { ',', ' ' }; // Zoznam znakov, podľa ktorých sa bude deliť
-            string[] allTags = tags.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-
-            blog = _context.Blogs.FirstOrDefault(b => b.Id == blog.Id);
-
-            foreach (string oneTag in allTags)
+            if (!tags.IsNullOrEmpty())
             {
-                var tag = new Tag
-                {
-                    Content = oneTag,
-                    BlogId = blog.Id,
-                    UserId = blog.UserId
-                };
+                char[] delimiters = { ',', ' ' }; // Zoznam znakov, podľa ktorých sa bude deliť
+                string[] allTags = tags.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
 
-                await _context.Tags.AddAsync(tag);
-                await _context.SaveChangesAsync();
+                blog = _context.Blogs.FirstOrDefault(b => b.Id == blog.Id);
+
+                foreach (string oneTag in allTags)
+                {
+                    var tag = new Tag
+                    {
+                        Content = oneTag,
+                        BlogId = blog.Id,
+                        UserId = blog.UserId
+                    };
+
+                    await _context.Tags.AddAsync(tag);
+                    await _context.SaveChangesAsync();
+                }
             }
             return RedirectToAction("Index", "Home");
         }
@@ -125,6 +128,19 @@ namespace BlogApp.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
+            // vymazanie tagov
+            var tags = _context.Tags.Where(t => t.BlogId == id);
+            foreach (var tag in tags)
+            {
+                _context.Tags.Remove(tag);
+            }
+            // vymazanie komentov
+            var comments = _context.Comments.Where(c => c.BlogId == id);
+            foreach (var comment in comments)
+            {
+                _context.Comments.Remove(comment);
+            }
+            // vymazanie blogu
             await _context.Blogs
                 .Where(b => b.Id == id)
                 .ExecuteDeleteAsync();
