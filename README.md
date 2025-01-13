@@ -6,9 +6,21 @@ Je potrebné aby bolo na počítači nainštalované:
 - **vývojové prostredie Visual Studio** (ja som používal 2022 verziu)
 
 ## Získanie repozitára
-- **git clone https://github.com/Rechtorik/BlogApp.git**
-- cd BlogApp
-- dotnet run
+```bash
+git clone https://github.com/Rechtorik/BlogApp.git
+```
+    
+```bash
+cd BlogApp
+```
+
+```bash
+cd BlogApp
+```
+  
+```bash
+dotnet run
+```
 
 ## Spustenie aplikácie
 Pomocou príkazu "dotnet run" (cmd) v adresári s aplikáciou je možné spustiť túto aplikáciu, ktorá bude bežať na porte ktorý je vypísaný v cmd
